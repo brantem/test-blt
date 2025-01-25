@@ -1,17 +1,24 @@
+import { useState } from 'react';
+
 import { cn } from '~/lib/helpers';
-import { useMessages } from '~/lib/hooks';
+import { useChat } from '~/lib/hooks';
 
 type ChatBoxProps = {
+  roomId: number | null;
   userId: number;
 };
 
-export default function ChatBox({ userId }: ChatBoxProps) {
-  const messages = useMessages();
+export default function ChatBox({ roomId, userId }: ChatBoxProps) {
+  const [content, setContent] = useState('');
+
+  const { send, messages } = useChat(roomId, userId);
+
+  // TODO: flash
 
   return (
-    <div className="bg-white flex flex-col divide-y divide-neutral-200" tabIndex={-1}>
+    <div className="bg-white flex flex-col divide-y divide-neutral-200 outline-none" tabIndex={-1}>
       <h1 className="h-10 flex items-center pl-2 font-semibold">User {userId}</h1>
-      <div className="flex-1 p-4 flex flex-col-reverse">
+      <div className="flex-1 p-4 flex flex-col-reverse gap-2">
         {messages.map((message) => {
           const isMe = message.userId === userId;
           return (
@@ -28,16 +35,27 @@ export default function ChatBox({ userId }: ChatBoxProps) {
           );
         })}
       </div>
+
       <form
         className="bg-white flex"
         onSubmit={(e) => {
           e.preventDefault();
+          send({ type: 'message', data: content.trim() });
+          setContent('');
         }}
       >
-        <input type="text" className="px-2 h-10 flex-1" />
+        <input
+          type="text"
+          className="px-2 h-10 flex-1 outline-none disabled:bg-neutral-100"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          onBlur={() => setContent((prev) => prev.trim())}
+          disabled={!roomId}
+        />
         <button
           type="submit"
-          className="bg-neutral-800 text-white aspect-square shrink-0 h-full flex items-center justify-center"
+          className="bg-neutral-800 text-white aspect-square shrink-0 h-full flex items-center justify-center disabled:bg-neutral-200 disabled:text-neutral-400"
+          disabled={!roomId}
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5">
             <path d="M3.105 2.288a.75.75 0 0 0-.826.95l1.414 4.926A1.5 1.5 0 0 0 5.135 9.25h6.115a.75.75 0 0 1 0 1.5H5.135a1.5 1.5 0 0 0-1.442 1.086l-1.414 4.926a.75.75 0 0 0 .826.95 28.897 28.897 0 0 0 15.293-7.155.75.75 0 0 0 0-1.114A28.897 28.897 0 0 0 3.105 2.288Z" />
