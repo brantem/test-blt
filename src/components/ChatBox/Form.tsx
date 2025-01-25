@@ -27,6 +27,7 @@ export default function Form({ onSubmit, isDisabled }: FormProps) {
         value={content}
         onChange={(e) => setContent(e.target.value)}
         disabled={isDisabled}
+        required
       />
       <button
         type="submit"
