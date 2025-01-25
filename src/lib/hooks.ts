@@ -18,7 +18,7 @@ export function useChat(roomId: number | null, userId: number) {
       const { type, data } = JSON.parse(e.data);
       switch (type) {
         case 'new_message':
-          setMessages((prev) => [...prev, data]);
+          setMessages((prev) => [data, ...prev]);
           break;
       }
     };
