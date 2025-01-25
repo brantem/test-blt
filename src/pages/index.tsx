@@ -5,7 +5,7 @@ import ChatBox from '~/components/ChatBox';
 
 export default function Home() {
   const router = useRouter();
-  const roomId = router.query.roomId ? Number(router.query.roomId) : null;
+  const roomId = router.query.roomId?.toString() || null;
 
   useEffect(() => {
     if (!router.isReady) return;

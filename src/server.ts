@@ -19,7 +19,7 @@ app.prepare().then(async () => {
   });
 
   // store rooms and their connected clients
-  const rooms = new Map<number, Set<WebSocket>>();
+  const rooms = new Map<string, Set<WebSocket>>();
 
   // 1. noServer is set to true to handle the upgrade manually and avoid interfering with next ws server (hmr)
   // 2. path is set to /api to prevent immediate disconnection after connecting
@@ -27,7 +27,7 @@ app.prepare().then(async () => {
   wss.on('connection', async (ws, req) => {
     // get roomId and userId
     const url = new URL(req.url || '', `http://${req.headers.host}`);
-    const roomId = Number(url.searchParams.get('roomId'));
+    const roomId = url.searchParams.get('roomId');
     const userId = Number(url.searchParams.get('userId'));
 
     if (!roomId || !userId) {

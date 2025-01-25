@@ -6,7 +6,7 @@ import Form from './Form';
 import { useChat } from '~/lib/hooks';
 
 type ChatBoxProps = {
-  roomId: number | null;
+  roomId: string | null;
   userId: number;
 };
 

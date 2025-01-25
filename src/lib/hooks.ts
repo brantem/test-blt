@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Message } from '~/types';
 
 export function useChat(
-  roomId: number | null,
+  roomId: string | null,
   userId: number,
   options?: {
     onReceive?: (message: Message) => void;
