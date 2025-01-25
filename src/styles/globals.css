@@ -3,3 +3,7 @@
 html, body, #__next {
   @apply h-full
 }
+
+#__next {
+  @apply py-16 bg-neutral-50;
+}
