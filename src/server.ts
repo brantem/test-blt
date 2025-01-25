@@ -11,7 +11,7 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(async () => {
-  const db = await initDb();
+  const db = await initDb(process.env.DB_PATH);
 
   const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url!, true);

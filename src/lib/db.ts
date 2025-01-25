@@ -1,8 +1,8 @@
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 
-export default async function initDb() {
-  const db = await open({ filename: ':memory:', driver: sqlite3.Database });
+export default async function initDb(filename = ':memory:') {
+  const db = await open({ filename, driver: sqlite3.Database });
 
   await db.exec(`
     CREATE TABLE IF NOT EXISTS messages (
