@@ -10,13 +10,15 @@ export function useChat(roomId: number | null, userId: number) {
   useEffect(() => {
     if (!roomId) return;
 
-    // TODO: url
-    const ws = new WebSocket(`ws://localhost:3000/api?roomId=${roomId}&userId=${userId}`);
+    const ws = new WebSocket(`ws://${window.location.host}/api?roomId=${roomId}&userId=${userId}`);
     wsRef.current = ws;
 
     ws.onmessage = (e) => {
       const { type, data } = JSON.parse(e.data);
       switch (type) {
+        case 'previous_messages':
+          setMessages(data);
+          break;
         case 'new_message':
           setMessages((prev) => [data, ...prev]);
           break;

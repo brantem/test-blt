@@ -3,12 +3,16 @@ import url from 'node:url';
 import next from 'next';
 import WebSocket, { WebSocketServer } from 'ws';
 
+import initDb from './lib/db';
+
 const port = parseInt(process.env.PORT || '3000', 10);
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(async () => {
+  const db = await initDb();
+
   const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url!, true);
     handle(req, res, parsedUrl);
@@ -37,13 +41,30 @@ app.prepare().then(async () => {
 
     console.log(`Room ${roomId}: User ${userId} connected`);
 
-    // TODO: get and send previous messages
+    // send previous messages
+    const messages = await db.all(
+      `
+        SELECT id, user_id AS userId, content, created_at as createdAt
+        FROM messages
+        WHERE room_id = ?
+        ORDER BY created_at DESC
+      `,
+      roomId,
+    );
+    ws.send(JSON.stringify({ type: 'previous_messages', data: messages }));
 
     ws.on('message', async (v) => {
       const { type, data } = JSON.parse(v.toString());
       switch (type) {
         case 'message':
-          // TODO: save into db
+          const message = await db.get(
+            `
+              INSERT INTO messages (room_id, user_id, content)
+              VALUES (?, ?, ?)
+              RETURNING id, user_id AS userId, content, created_at as createdAt
+            `,
+            [roomId, userId, data],
+          );
 
           const clients = rooms.get(roomId);
           if (!clients) return;
@@ -52,7 +73,6 @@ app.prepare().then(async () => {
             if (client.readyState !== WebSocket.OPEN) return;
 
             // send new message
-            const message = { id: Date.now(), userId, content: data, createdAt: Date.now() };
             client.send(JSON.stringify({ type: 'new_message', data: message }));
           });
           break;
