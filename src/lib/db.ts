@@ -7,7 +7,7 @@ export default async function initDb(filename = ':memory:') {
   await db.exec(`
     CREATE TABLE IF NOT EXISTS messages (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      room_id INTEGER NOT NULL,
+      room_id TEXT NOT NULL,
       user_id INTEGER NOT NULL,
       content TEXT NOT NULL,
       created_at INTEGER NOT NULL DEFAULT (unixepoch())
