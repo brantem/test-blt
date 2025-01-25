@@ -41,6 +41,8 @@ app.prepare().then(async () => {
 
     console.log(`Room ${roomId}: User ${userId} connected`);
 
+    // IMPROVE: fetch and send messages in smaller chunks to improve performance and reduce load
+
     // send previous messages
     const messages = await db.all(
       `
