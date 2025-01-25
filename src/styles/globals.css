@@ -9,3 +9,17 @@ body,
 #__next {
   @apply bg-neutral-50 py-16;
 }
+
+@theme {
+  --animate-flash: flash 1s ease-in-out 1;
+
+  @keyframes flash {
+    from {
+      background: var(--color-yellow-50);
+    }
+
+    to {
+      background: white;
+    }
+  }
+}

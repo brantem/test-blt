@@ -2,7 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 
 import type { Message } from '~/types';
 
-export function useChat(roomId: number | null, userId: number) {
+export function useChat(
+  roomId: number | null,
+  userId: number,
+  options?: {
+    onReceive?: (message: Message) => void;
+  },
+) {
   const wsRef = useRef<WebSocket>(null);
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -21,6 +27,7 @@ export function useChat(roomId: number | null, userId: number) {
           break;
         case 'new_message':
           setMessages((prev) => [data, ...prev]);
+          options?.onReceive?.(data);
           break;
       }
     };
