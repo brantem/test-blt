@@ -18,15 +18,28 @@ export default function Messages({ ref, userId, data }: MessagesProps) {
           <div key={message.id} className={cn('flex', isMe ? 'justify-end' : 'justify-start')}>
             <div
               className={cn(
-                'rounded-xl px-3 py-1',
+                'flex items-end gap-3 rounded-xl px-3 py-1',
                 isMe ? 'rounded-br-none bg-neutral-200 text-neutral-900' : 'rounded-bl-none bg-neutral-900 text-white',
               )}
             >
-              {message.content}
+              {isMe && <Timestamp isMe>{message.createdAt}</Timestamp>}
+              <span>{message.content}</span>
+              {!isMe && <Timestamp>{message.createdAt}</Timestamp>}
             </div>
           </div>
         );
       })}
     </div>
+  );
+}
+
+function Timestamp({ isMe = false, children }: { isMe?: boolean; children: number }) {
+  return (
+    <span
+      className={cn('text-xs', isMe ? 'text-neutral-400' : 'text-neutral-500')}
+      title={new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'long' }).format(new Date(children))}
+    >
+      {new Intl.DateTimeFormat('id-ID', { hour: 'numeric', minute: 'numeric' }).format(new Date(children))}
+    </span>
   );
 }
