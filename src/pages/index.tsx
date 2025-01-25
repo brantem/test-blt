@@ -7,9 +7,13 @@ export default function Home() {
   const router = useRouter();
   const roomId = router.query.roomId ? Number(router.query.roomId) : null;
 
-  // auto generate roomId
   useEffect(() => {
     if (!router.isReady) return;
+
+    const el = document.querySelector('input:first-of-type') as HTMLInputElement | null;
+    if (el) el?.focus(); // focus the first input
+
+    // auto generate roomId if it doesnt exists
     if (roomId) return;
     router.push(`/?roomId=${Date.now()}`, undefined, { shallow: true });
   }, [router.isReady]);

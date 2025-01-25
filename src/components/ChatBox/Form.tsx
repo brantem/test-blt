@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 type FormProps = {
   onSubmit(content: string): void;
@@ -6,6 +6,8 @@ type FormProps = {
 };
 
 export default function Form({ onSubmit, isDisabled }: FormProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [content, setContent] = useState('');
 
   return (
@@ -15,9 +17,11 @@ export default function Form({ onSubmit, isDisabled }: FormProps) {
         e.preventDefault();
         onSubmit(content.trim());
         setContent('');
+        inputRef.current?.focus(); // refocus input manually
       }}
     >
       <input
+        ref={inputRef}
         type="text"
         className="h-10 flex-1 px-2 outline-none disabled:bg-neutral-100"
         value={content}

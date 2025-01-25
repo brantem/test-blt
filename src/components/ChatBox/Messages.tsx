@@ -19,7 +19,7 @@ export default function Messages({ ref, userId, data }: MessagesProps) {
             <div
               className={cn(
                 'rounded-xl px-3 py-1',
-                isMe ? 'rounded-br-none bg-neutral-200' : 'rounded-bl-none bg-black text-white',
+                isMe ? 'rounded-br-none bg-neutral-200 text-neutral-900' : 'rounded-bl-none bg-neutral-900 text-white',
               )}
             >
               {message.content}
