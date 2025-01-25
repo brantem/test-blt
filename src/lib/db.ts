@@ -10,7 +10,7 @@ export default async function initDb(filename = ':memory:') {
       room_id INTEGER NOT NULL,
       user_id INTEGER NOT NULL,
       content TEXT NOT NULL,
-      created_at INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP
+      created_at INTEGER NOT NULL DEFAULT (unixepoch())
     );
   `);
 

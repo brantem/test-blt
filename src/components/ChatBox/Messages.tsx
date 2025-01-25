@@ -34,12 +34,13 @@ export default function Messages({ ref, userId, data }: MessagesProps) {
 }
 
 function Timestamp({ isMe = false, children }: { isMe?: boolean; children: number }) {
+  const createdAt = children * 1000; // sqlite stores timestamps in seconds, so this needs to be converted to milliseconds
   return (
     <span
       className={cn('text-xs', isMe ? 'text-neutral-400' : 'text-neutral-500')}
-      title={new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'long' }).format(new Date(children))}
+      title={new Intl.DateTimeFormat('id-ID', { dateStyle: 'medium', timeStyle: 'long' }).format(createdAt)}
     >
-      {new Intl.DateTimeFormat('id-ID', { hour: 'numeric', minute: 'numeric' }).format(new Date(children))}
+      {new Intl.DateTimeFormat('id-ID', { hour: 'numeric', minute: 'numeric' }).format(createdAt)}
     </span>
   );
 }
