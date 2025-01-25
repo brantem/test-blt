@@ -1,9 +1,11 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-html, body, #__next {
-  @apply h-full
+html,
+body,
+#__next {
+  @apply h-full;
 }
 
 #__next {
-  @apply py-16 bg-neutral-50;
+  @apply bg-neutral-50 py-16;
 }

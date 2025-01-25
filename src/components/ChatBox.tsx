@@ -16,9 +16,9 @@ export default function ChatBox({ roomId, userId }: ChatBoxProps) {
   // TODO: flash
 
   return (
-    <div className="bg-white flex flex-col divide-y divide-neutral-200 outline-none" tabIndex={-1}>
-      <h1 className="h-10 flex items-center pl-2 font-semibold">User {userId}</h1>
-      <div className="flex-1 p-4 flex flex-col-reverse gap-2">
+    <div className="flex flex-col divide-y divide-neutral-200 bg-white outline-none" tabIndex={-1}>
+      <h1 className="flex h-10 items-center pl-2 font-semibold">User {userId}</h1>
+      <div className="flex flex-1 flex-col-reverse gap-2 p-4">
         {messages.map((message) => {
           const isMe = message.userId === userId;
           return (
@@ -26,7 +26,7 @@ export default function ChatBox({ roomId, userId }: ChatBoxProps) {
               <div
                 className={cn(
                   'rounded-xl px-3 py-1',
-                  isMe ? 'bg-neutral-200 rounded-br-none' : 'bg-black text-white rounded-bl-none '
+                  isMe ? 'rounded-br-none bg-neutral-200' : 'rounded-bl-none bg-black text-white',
                 )}
               >
                 {message.content}
@@ -37,7 +37,7 @@ export default function ChatBox({ roomId, userId }: ChatBoxProps) {
       </div>
 
       <form
-        className="bg-white flex"
+        className="flex bg-white"
         onSubmit={(e) => {
           e.preventDefault();
           send({ type: 'message', data: content.trim() });
@@ -46,7 +46,7 @@ export default function ChatBox({ roomId, userId }: ChatBoxProps) {
       >
         <input
           type="text"
-          className="px-2 h-10 flex-1 outline-none disabled:bg-neutral-100"
+          className="h-10 flex-1 px-2 outline-none disabled:bg-neutral-100"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onBlur={() => setContent((prev) => prev.trim())}
@@ -54,7 +54,7 @@ export default function ChatBox({ roomId, userId }: ChatBoxProps) {
         />
         <button
           type="submit"
-          className="bg-neutral-800 text-white aspect-square shrink-0 h-full flex items-center justify-center disabled:bg-neutral-200 disabled:text-neutral-400"
+          className="flex aspect-square h-full shrink-0 items-center justify-center bg-neutral-800 text-white disabled:bg-neutral-200 disabled:text-neutral-400"
           disabled={!roomId}
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5">

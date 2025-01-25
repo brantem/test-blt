@@ -15,7 +15,7 @@ export default function Home() {
   }, [router.isReady]);
 
   return (
-    <div className="max-w-[130ch] grid grid-cols-2 divide-x divide-neutral-200 relative rounded-lg overflow-hidden h-full w-full mx-auto border border-neutral-200">
+    <div className="relative mx-auto grid h-full w-full max-w-[130ch] grid-cols-2 divide-x divide-neutral-200 overflow-hidden rounded-lg border border-neutral-200">
       <ChatBox roomId={roomId} userId={1} />
       <ChatBox roomId={roomId} userId={2} />
     </div>
