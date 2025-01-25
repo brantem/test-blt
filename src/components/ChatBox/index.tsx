@@ -28,7 +28,7 @@ export default function ChatBox({ roomId, userId }: ChatBoxProps) {
 
   return (
     <div className="flex flex-col divide-y divide-neutral-200 overflow-hidden bg-white outline-none">
-      <h1 className="flex h-10 items-center pl-2 font-semibold">User {userId}</h1>
+      <h1 className="flex h-10 items-center pl-2 font-semibold select-none">User {userId}</h1>
       <Messages ref={messagesRef} userId={userId} data={messages} />
       <Form onSubmit={(content) => send({ type: 'message', data: content })} isDisabled={!roomId} />
     </div>
