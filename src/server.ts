@@ -21,8 +21,6 @@ app.prepare().then(async () => {
   // 2. path is set to /api to prevent immediate disconnection after connecting
   const wss = new WebSocketServer({ noServer: true, path: '/api' });
   wss.on('connection', async (ws, req) => {
-    console.log(`Client connected`);
-
     // get roomId and userId
     const url = new URL(req.url || '', `http://${req.headers.host}`);
     const roomId = Number(url.searchParams.get('roomId'));
@@ -36,6 +34,8 @@ app.prepare().then(async () => {
     // add client
     if (!rooms.has(roomId)) rooms.set(roomId, new Set());
     rooms.get(roomId)!.add(ws);
+
+    console.log(`Room ${roomId}: User ${userId} connected`);
 
     // TODO: get and send previous messages
 
@@ -60,7 +60,7 @@ app.prepare().then(async () => {
     });
 
     ws.on('close', () => {
-      console.log('Client disconnected');
+      console.log(`Room ${roomId}: User ${userId} disconnected`);
 
       const clients = rooms.get(roomId);
       if (!clients) return;
