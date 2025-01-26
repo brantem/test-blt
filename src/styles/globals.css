@@ -7,7 +7,7 @@ body,
 }
 
 #__next {
-  @apply bg-neutral-50 py-8;
+  @apply bg-neutral-50 lg:py-8;
 }
 
 @theme {
