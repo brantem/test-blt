@@ -7,6 +7,7 @@ A simple chat app with **Next.js**, **Node.js**, and **WebSocket** where users c
 - Left and right chat windows, where each side can send messages to the other.
 - Message persistence: all messages are saved and accessible after reopening the tab.
 - Message flashing: when a message is sent, the receiving window flashes.
+- Responsive design: Works seamlessly on both desktop and mobile devices.
 
 ### How to Run
 
